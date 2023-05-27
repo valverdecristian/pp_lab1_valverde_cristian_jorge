@@ -132,12 +132,6 @@ def mostrar_informacion_del_jugador(jugadores:list)-> list:
         return "Lista vacía"
 
 # 3
-# Después de mostrar las estadísticas de un jugador seleccionado por el usuario,
-# permite al usuario guardar las estadísticas de ese jugador en un archivo CSV. El
-# archivo CSV debe contener los siguientes campos: nombre, posición, temporadas,
-# puntos totales, promedio de puntos por partido, rebotes totales, promedio de rebotes
-# por partido, asistencias totales, promedio de asistencias por partido, robos totales,
-# bloqueos totales, porcentaje de tiros de campo, porcentaje de tiros libres y porcentaje de tiros triples.
 def guardar_archivo(ruta:str, contenido:str)-> bool:
     """
     La función "guardar_archivo" crea un archivo con la ruta dada y escribe en él el contenido dado,
@@ -151,11 +145,27 @@ def guardar_archivo(ruta:str, contenido:str)-> bool:
         else:
             print("Error al crear el archivo: {0}".format(ruta))
             return False
-                
-def guardar_en_csv_el_punto_2(ruta :str, jugadores:list):
-    pass
 
-# 4
+def guardar_ejercicio_2(jugadores:list)->str:
+    lista_claves = list()
+    lista_valores = list()
+    
+    lista_informacion = mostrar_informacion_del_jugador(jugadores)
+    # es 1 elemento solo = diccionario
+    for elemento in lista_informacion:
+        for clave, valor in elemento.items():
+            lista_claves.append(clave)
+            lista_valores.append(str(valor))
+            
+    join_claves = ",".join(lista_claves)
+    join_valores = ",".join(lista_valores)
+    
+    mostrar = "{0}\n{1}".format(join_claves,join_valores)
+    
+    return mostrar
+            
+
+# 4, 6
 def mostrar_logros_del_jugador(jugadores:list)->str:
     """
     Esta función toma una lista de jugadores y solicita al usuario que ingrese el nombre de un jugador,
@@ -235,39 +245,6 @@ def lista_jugadores_alfabeticamente(jugadores:list)->list:
         nombres_ordenados = ordenar_lista(lista_nombres, True)
         
         return nombres_ordenados
-    
-    else:
-        return "Lista vacia"
-        
-# 6
-def miembro_del_salon_de_la_fama(jugadores:list)->str:
-    """
-    Esta función comprueba si un jugador de baloncesto determinado es miembro del Salón de la Fama del
-    Baloncesto y devuelve una cadena que indica su estado.
-    
-    Parametros:
-        jugadores: lista de jugadores
-        
-    Retorna:
-        str: una cadena que indica si el jugador es o no "Miembro del Salon de la fama del Baloncesto"
-    """
-    if jugadores:
-        lista_jugadores = mostrar_lista_jugadores(jugadores)
-        print(lista_jugadores)
-        
-        elemento_de_la_lista = "Miembro del Salon de la Fama del Baloncesto"
-        
-        nombre_ingresado = input("Ingresar nombre del jugador: ")
-        nombre_ingresado = nombre_ingresado.title()
-        if re.findall('[A-Za-z ]+',nombre_ingresado) and nombre_ingresado in lista_jugadores:
-            for jugador in jugadores:
-                if nombre_ingresado in jugador["nombre"] and elemento_de_la_lista in jugador["logros"]:
-                    cadena_retorno = "El jugador {0} es {1}".format(jugador["nombre"],elemento_de_la_lista)
-                    return cadena_retorno
-
-            return "El jugador {0} no es {1}".format(jugador["nombre"],elemento_de_la_lista)
-        
-        return "Nombre no encontrado en Dream Team"
     
     else:
         return "Lista vacia"
@@ -433,7 +410,10 @@ def main():
                 imprimir_dato(resultdo)
                 
             case 3:
-                pass
+                contenido = guardar_ejercicio_2(lista_jugadores)
+                rutacsv = "ejercicio2guardadofinal.csv"
+                
+                guardar_archivo(rutacsv, contenido)
             
             case 4:
                 imprimir_dato(mostrar_logros_del_jugador(lista_jugadores))
@@ -443,7 +423,11 @@ def main():
                 imprimir_dato(lista_jugadores_alfabeticamente(lista_jugadores))
                 
             case 6:
-                imprimir_dato(miembro_del_salon_de_la_fama(lista_jugadores))
+                logros = mostrar_logros_del_jugador(lista_jugadores)
+                if "Miembro del Salon de la Fama del Baloncesto" == logros:
+                    imprimir_dato("El jugador es 'Miembro del Salon de la Fama del Baloncesto'")
+                else:
+                    imprimir_dato("El jugador no es 'Miembro del Salon de la Fama del Baloncesto'")
                 
             case 7:
                 imprimir_dato(jugador_con_mayor_cantidad_de_sub_clave(lista_jugadores, "rebotes_totales"))
