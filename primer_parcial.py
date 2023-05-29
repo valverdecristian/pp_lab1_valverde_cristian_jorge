@@ -12,15 +12,14 @@ def clear_console()-> None:
     """
     Esta función borra la pantalla de la consola en Python esperando la entrada del usuario y luego
     llamando al comando 'cls' para borrar la pantalla.
-    
-    
-    
-    
     """
-    _ = input('Press a key to continue...')
+    _ = input('Presionar ENTER para continuar...')
     os.system('cls')
 
 def imprimir_dato(dato):
+    """
+    Esta función muestra por pantalla el dato que se le pasa por parametro
+    """
     print(dato)
 
 def leer_archivo(ruta:str):
@@ -44,6 +43,21 @@ def mostrar_lista_jugadores(jugadores:list):
     return "\n".join(lista_jugadores)
         
 def ordenar_lista(lista_original:list, flag_orden=True)->list:
+    """
+    Esta es una función de Python que ordena una lista en orden ascendente o descendente utilizando el
+    algoritmo de clasificación rápida.
+    
+    Parametros:
+        lista_original: una lista de elementos a ordenar
+        flag_orden: Un indicador booleano que determina si la lista debe ordenarse en orden
+        ascendente o descendente. Si es Verdadero, la lista se ordenará en orden ascendente (de menor a
+        mayor), y si es Falso, la lista se ordenará en orden descendente (de mayor a menor)
+    
+    Retorna:
+        list: devuelve una lista ordenada basada en la lista de entrada y el indicador `flag_orden`.
+        Si `flag_orden` es `True`, la lista se ordena en orden ascendente; de lo
+        contrario, se ordena en orden descendente
+    """
     lista_izquierda = list()
     lista_derecha = list()
     
@@ -71,6 +85,7 @@ def ordenar_lista(lista_original:list, flag_orden=True)->list:
     
     return lista_izquierda
 # --------------------------------------------------------------------------------
+
 #1
 def listar_jugadores_dream_team(jugadores:list)-> str:
     """
@@ -92,6 +107,7 @@ def listar_jugadores_dream_team(jugadores:list)-> str:
     else:
         "Lista vacia"
 
+
 #2
 def mostrar_informacion_del_jugador(jugadores:list)-> list:
     """
@@ -109,11 +125,13 @@ def mostrar_informacion_del_jugador(jugadores:list)-> list:
         indice = 0
         estadisticas = list()
         
+        # muestra por pantalla la lista de jugadores con su indice
         for jugador in jugadores:
-            cadena = "{0} - {1}".format(indice, jugador["nombre"])
+            cadena = "Indice: {0} - Nombre: {1}".format(indice, jugador["nombre"])
             print(cadena)
             indice += 1
 
+        # se solicita que el usuario ingrese un numero
         while True:
             indice_ingresado = input("Ingrese el índice del 0 al 11 para mostrar la información del jugador: ")
             if re.match(r'[0-9]|1[0-1]', indice_ingresado):
@@ -125,17 +143,28 @@ def mostrar_informacion_del_jugador(jugadores:list)-> list:
                     print("El número ingresado está fuera del rango esperado.")
             else:
                 print("Entrada no válida. Debe ingresar un número del 0 al 11.")
+                
+        if estadisticas:
+            print("Logros del jugador {}: ".format(jugadores[indice_ingresado]["nombre"]))
 
         return estadisticas
 
     else:
         return "Lista vacía"
 
+
 # 3
 def guardar_archivo(ruta:str, contenido:str)-> bool:
     """
     La función "guardar_archivo" crea un archivo con la ruta dada y escribe en él el contenido dado,
     devolviendo True si tiene éxito y False en caso contrario.
+    
+    Parametros:
+        ruta: el nombre que va a recibir el archivo creado
+        contenido: lo que se va a guardar en el archivo
+        
+    Retorna:
+        bool: True si se creo el archivo o False si no se pudo crear
     """
     with open(ruta, "w+") as archivo:
         archivo_creado = archivo.write(contenido)
@@ -166,7 +195,7 @@ def guardar_ejercicio_2(jugadores:list)->str:
             
 
 # 4, 6
-def mostrar_logros_del_jugador(jugadores:list)->str:
+def mostrar_logros_del_jugador(jugadores:list, flag:bool)->str:
     """
     Esta función toma una lista de jugadores y solicita al usuario que ingrese el nombre de un jugador,
     luego devuelve los logros de ese jugador.
@@ -187,12 +216,20 @@ def mostrar_logros_del_jugador(jugadores:list)->str:
         if re.search(r'[A-Za-z ]+', nombre_ingresado):
             for jugador in jugadores:
                 if nombre_ingresado in jugador["nombre"]:
+                    nombre_del_jugador = jugador["nombre"]
                     logros = jugador["logros"]
 
-        return "\n".join(logros)
+        if flag:
+            return "\n".join(logros)
+        else:
+            if "Miembro del Salon de la Fama del Baloncesto" in logros:
+                return "El jugador {0} es miembro".format(nombre_del_jugador)
+            else:
+                return "El jugador {0} no es miembro".format(nombre_del_jugador)
     
     else:
         return "Lista vacia"
+
 
 # 5
 def promedio_sub_clave(jugadores:list[dict],sub_clave:str)->float:
@@ -217,6 +254,7 @@ def promedio_sub_clave(jugadores:list[dict],sub_clave:str)->float:
         
         if contador > 0:
             promedio = acumulador / contador
+            print("El promedio de '{0}' de todos los jugadores es es: ".format(sub_clave.replace("_", " ")))
         else:
             return "No se encontro la sub clave"
         
@@ -225,7 +263,7 @@ def promedio_sub_clave(jugadores:list[dict],sub_clave:str)->float:
     else:
         return "Lista vacia"
 
-def lista_jugadores_alfabeticamente(jugadores:list)->list:
+def lista_jugadores_alfabeticamente(jugadores:list, dato:str)->str:
     """
     Esta función toma una lista de diccionarios que contienen información de jugadores y devuelve una
     lista de nombres de jugadores ordenados alfabéticamente.
@@ -234,21 +272,26 @@ def lista_jugadores_alfabeticamente(jugadores:list)->list:
         jugadores: lista de jugadores
         
     Retorna:
-        list: lista de nombres de jugadores ordenados alfabéticamente
+        str: lista reformulada a cadena de los jugadores ordenados alfabéticamente
     """
     if jugadores:
-        lista_nombres = list()
+        lista_datos = list()
         
         for jugador in jugadores:
-            lista_nombres.append(jugador["nombre"])
+            lista_datos.append(jugador[dato])
         
-        nombres_ordenados = ordenar_lista(lista_nombres, True)
+        datos_ordenados = ordenar_lista(lista_datos, True)
         
-        return nombres_ordenados
+        if datos_ordenados:
+            print("La lista de los jugadores ordenados alfabeticamente es: ")
+            
+        
+        return "\n".join(datos_ordenados)
     
     else:
         return "Lista vacia"
-
+   
+    
 # 7, 8 y 9, 13, 14, 19
 def jugador_con_mayor_cantidad_de_sub_clave(jugadores:list, sub_clave:str)->str:
     """
@@ -262,25 +305,27 @@ def jugador_con_mayor_cantidad_de_sub_clave(jugadores:list, sub_clave:str)->str:
         str: Una cadena que indica el nombre del jugador con la mayor cantidad de algo segun la "sub_clave" ingresada y su cantidad correspondiente.
     """
     if jugadores:
-        sub_clave_refaccionada = sub_clave.replace("_", " ")
+        # sub_clave_refaccionada = sub_clave.replace("_", " ")
         maxima_cantidad = 0
-        nombre_jugador = None
+        lista_jugadores = list()
         
         for jugador in jugadores:
             cantidad_sub_clave = jugador["estadisticas"][sub_clave]
             if cantidad_sub_clave > maxima_cantidad:
                 maxima_cantidad = cantidad_sub_clave
-                nombre_jugador = jugador["nombre"]
+                lista_jugadores = [jugador]
+            elif maxima_cantidad == cantidad_sub_clave:
+                lista_jugadores.append(jugador)
         
-        if nombre_jugador != None:
-            mensaje = "El jugador con la mayor cantidad de {0} es {1} con {2}".format(sub_clave_refaccionada,nombre_jugador, maxima_cantidad)
-        else:
-            mensaje = "No se encontró ningún jugador con la estadística solicitada"
-        
-        return mensaje
+        string_vacio = ""
+        for jugador in lista_jugadores:
+            string_vacio += "Nombre: {0} - Cantidad: {1}\n".format(jugador["nombre"], maxima_cantidad)
+            
+        return string_vacio
     
     else:
         return "Lista vacia"
+
         
 # 10, 11, 12, 15, 18
 def listar_jugadores_mayor_al_promedio(jugadores:list, sub_clave:str)->list:
@@ -301,34 +346,44 @@ def listar_jugadores_mayor_al_promedio(jugadores:list, sub_clave:str)->list:
         lista_jugadores_mayor = list()
         
         valor_ingresado = input("Ingrese un valor: ")
-        if re.match(r'[0-9]|1[0-1]', valor_ingresado):
+        if re.match(r'[0-9]', valor_ingresado):
             valor_ingresado = int(valor_ingresado)
 
         for jugador in jugadores:
             if jugador["estadisticas"][sub_clave] > valor_ingresado:
                 lista_jugadores_mayor.append(jugador["nombre"])
 
-        return lista_jugadores_mayor
+        if lista_jugadores_mayor:
+            print("La lista de jugadores que superan la cifra ingresada es: ")
+            return "\n".join(lista_jugadores_mayor)
     
     else:
         return "Lista vacia"
 
+
 # 16
-def promedio_excluyendo_al_menor_cantidad_puntos_por_partido(jugadores:list):
+def promedio_excluyendo_al_menor_cantidad_puntos_por_partido(jugadores:list)->float:
     """
     Esta función calcula el promedio de puntos por juego para una lista de jugadores, excluyendo al
     jugador con el promedio más bajo.
+    
+    Parametros:
+        jugadores: lista de jugadores
+        
+    Retorna:
+        float: el promedio
     """
     if jugadores:
         lista_promedio_de_puntos = list()
         for jugador in jugadores:
             lista_promedio_de_puntos.append(jugador["estadisticas"]["promedio_puntos_por_partido"])
-            
-        lista_promedio_de_puntos_ordenada = ordenar_lista(lista_promedio_de_puntos, True)
-        # print(lista_promedio_de_puntos_ordenada[0]) #elemento eliminado
         
+        # ordenamiento de la lista por orden alfabetico    
+        lista_promedio_de_puntos_ordenada = ordenar_lista(lista_promedio_de_puntos, True)
+        
+        # al tener la lista ordenada puedo eliminar el 1er elemento con el metodo remove
+        # tambien hubiera usado un slice el cual ignoraba el 1er elemento [1:]
         lista_promedio_de_puntos_ordenada.remove(lista_promedio_de_puntos_ordenada[0])
-        # print(lista_promedio_de_puntos_ordenada) #lista sin el elemento eliminado
         
         if lista_promedio_de_puntos_ordenada:
             suma = sum(lista_promedio_de_puntos_ordenada)
@@ -339,11 +394,17 @@ def promedio_excluyendo_al_menor_cantidad_puntos_por_partido(jugadores:list):
     else:
         return "Lista vacia"
     
-
+    
 # 17
 def jugador_con_mayor_cantidad_logros(jugadores:list)->str:
     """
     Esta función devuelve el nombre del jugador con el mayor número de logros obtenidos.
+    
+    Parametros:
+        jugadores: lista de jugadores
+        
+    Retorna:
+        str: el jugador con el mayor número de logros obtenidos
     """
     if jugadores:
         for i in range(len(jugadores)):
@@ -351,22 +412,17 @@ def jugador_con_mayor_cantidad_logros(jugadores:list)->str:
                 jugador_max = jugadores[i]["logros"]
                 i_max = i
                 
-        jugador_retornado = jugadores[i_max]["nombre"]
-        mensaje_retorno = "el jugador con el mayor número de logros obtenidos es {0}".format(jugador_retornado)
-        return mensaje_retorno
+        jugador_max = jugadores[i_max]["nombre"]
+        mensaje = "el jugador con el mayor número de logros obtenidos es {0}".format(jugador_max)
+        return mensaje
     
     else:
         return "Lista vacia"
 
+
 # 20
-def jugadores_ordenados_por_posicion_e_ingreso_del_usuario(jugadores:list):
-    if jugadores:
-        return jugadores
-    
-    else:
-        return "Lista Vacia"
 
-
+#------------------------------------------------------------------
 
 # Mostrar menú de opciones
 def main():
@@ -375,7 +431,7 @@ def main():
         print("Menú de opciones:")
         print("1. Mostrar la lista de todos los jugadores del Dream Team")
         print("2. Seleccionar un jugador y mostrar su estadistica")
-        print("3. ")
+        print("3. Exportar a csv el ejercicio #2")
         print("4. Ingresar el nombre del jugador para ver sus logros")
         print("5. Promedio de puntos por partido del Dream Team")
         print("6. Mostrar si el jugador ingresado es miembro del salon de la fama")
@@ -416,18 +472,14 @@ def main():
                 guardar_archivo(rutacsv, contenido)
             
             case 4:
-                imprimir_dato(mostrar_logros_del_jugador(lista_jugadores))
+                imprimir_dato(mostrar_logros_del_jugador(lista_jugadores, True))
                 
             case 5:
                 imprimir_dato(promedio_sub_clave(lista_jugadores, "promedio_puntos_por_partido"))
-                imprimir_dato(lista_jugadores_alfabeticamente(lista_jugadores))
+                imprimir_dato(lista_jugadores_alfabeticamente(lista_jugadores, "nombre"))
                 
             case 6:
-                logros = mostrar_logros_del_jugador(lista_jugadores)
-                if "Miembro del Salon de la Fama del Baloncesto" == logros:
-                    imprimir_dato("El jugador es 'Miembro del Salon de la Fama del Baloncesto'")
-                else:
-                    imprimir_dato("El jugador no es 'Miembro del Salon de la Fama del Baloncesto'")
+                imprimir_dato(mostrar_logros_del_jugador(lista_jugadores, False))
                 
             case 7:
                 imprimir_dato(jugador_con_mayor_cantidad_de_sub_clave(lista_jugadores, "rebotes_totales"))
@@ -469,10 +521,13 @@ def main():
                 imprimir_dato(jugador_con_mayor_cantidad_de_sub_clave(lista_jugadores, "temporadas"))
             
             case 20:
-                imprimir_dato(jugadores_ordenados_por_posicion_e_ingreso_del_usuario(lista_jugadores))
+                pass
                 
             case 23:
                 pass
+            
+            case _:
+                print("EROR el numero no esta en la lista")
             
         clear_console()
             
