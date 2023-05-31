@@ -115,7 +115,7 @@ def listar_jugadores_dream_team(jugadores:list)-> str:
         return datos_del_jugador
     
     else:
-        "Lista vacia"
+        return "Lista vacia"
 
 
 #2
@@ -128,7 +128,7 @@ def mostrar_informacion_del_jugador(jugadores:list)-> list:
         jugadores: lista de jugadores
         
     Retorna:
-        list: una lista de estadísticas para un jugador seleccionado de una lista de jugadores
+        list: una lista con las estadísticas del jugador seleccionado
     """
     if jugadores:
         indice = 0
@@ -143,7 +143,7 @@ def mostrar_informacion_del_jugador(jugadores:list)-> list:
         # se solicita que el usuario ingrese un numero
         while True:
             indice_ingresado = input("Ingrese el índice del 0 al 11 para mostrar la información del jugador: ")
-            if re.match(r'[0-9]|1[0-1]', indice_ingresado):
+            if re.match(r'^([0-9]|1[0-1])$', indice_ingresado):
                 indice_ingresado = int(indice_ingresado)
                 if indice_ingresado <= len(jugadores):
                     estadisticas.append(jugadores[indice_ingresado]["estadisticas"])
@@ -289,6 +289,7 @@ def promedio_sub_clave(jugadores:list[dict],sub_clave:str)-> float:
     else:
         return "Lista vacia"
 
+
 def lista_jugadores_alfabeticamente(jugadores:list, dato:str)-> str:
     """
     Esta función toma una lista de diccionarios que contienen información de jugadores y devuelve una
@@ -332,11 +333,12 @@ def jugador_con_mayor_cantidad_de_sub_clave(jugadores:list, sub_clave:str)-> str
         str: Una cadena que indica el nombre del jugador con la mayor cantidad segun el dato de la "sub_clave" ingresada
     """
     if jugadores:
-        # sub_clave_refaccionada = sub_clave.replace("_", " ")
+        
         maxima_cantidad = 0
         lista_jugadores = list()
         
         for jugador in jugadores:
+            # en esta variable me guardo cada valor de cada jugador
             cantidad_sub_clave = jugador["estadisticas"][sub_clave]
             if cantidad_sub_clave > maxima_cantidad:
                 maxima_cantidad = cantidad_sub_clave
@@ -393,7 +395,7 @@ def listar_jugadores_mayor_al_promedio(jugadores:list, sub_clave:str)-> str:
 def promedio_excluyendo_al_menor_cantidad_puntos_por_partido(jugadores:list)-> float:
     """
     Esta función calcula el promedio de puntos por juego para una lista de jugadores, excluyendo al
-    jugador con el promedio más bajo.
+    jugador con el promedio más bajo
     
     Parametros:
         jugadores: lista de jugadores
@@ -448,18 +450,30 @@ def jugador_con_mayor_cantidad_logros(jugadores:list)-> str:
         return "Lista vacia"
 
 
+
 # 20
 # Permitir al usuario ingresar un valor y mostrar los jugadores , ordenados por
-#  posición en la cancha, que hayan tenido un porcentaje de tiros de campo superior a
-#  ese valor.
+# posición en la cancha, que hayan tenido un porcentaje de tiros de campo superior a
+# ese valor.
 
-# def ordenar_jugadores_por_posicion(jugadores:list):
-#     posiciones = {1: "Base", 2: "Escolta", 3: "Alero", 4: "Ala-Pivot", 5: "Pivot"}
+def ordenar_jugadores_alfabeticamente(jugadores:list)-> list:
+    if jugadores:
+        lista_nombres = listar_jugadores_mayor_al_promedio(jugadores, "porcentaje_tiros_de_campo")
+        lista_nombres = lista_nombres.split("\n")
+        lista_total = mostrar_lista_jugadores(jugadores)
+        lista_total = lista_total.split("\n")
+        lista_final = list()
+        
+        for elemento in lista_nombres:
+            if elemento in lista_total:
+                lista_final.append(elemento)
+            
+        lista_final = ordenar_lista(lista_final, True)
+        
+        return "\n".join(lista_final)
     
+    else:
+        return "Lista vacia"
     
-#     for jugador in jugadores:
-#         for clave, valor in posiciones.items():
-#             if jugador["posicion"] == valor:
-#                 jugador["posicion"] = clave
 
 #------------------------------------------------------------------

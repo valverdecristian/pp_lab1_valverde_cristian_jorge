@@ -27,10 +27,10 @@ def main():
         print("20. Jugadores ordenados por posicion en la cancha, con mayor porcentaje de tiros de campo superior al numero ingresado por el usuario")
         print("23. BONUS")
         
-
         opcion = input("\nIngrese la opción deseada: ")
-        if re.match('[0-9]|1[0-9]|20|23', opcion):
+        if re.match(r'^([0-9]|1[0-9]|20|23)$', opcion):
             opcion = int(opcion)
+            
         match opcion:
             
             case 1:
@@ -95,7 +95,7 @@ def main():
                 imprimir_dato(jugador_con_mayor_cantidad_de_sub_clave(lista_jugadores, "temporadas"))
             
             case 20:
-                pass
+                imprimir_dato(ordenar_jugadores_alfabeticamente(lista_jugadores))
                 
             case 23:
                 pass
