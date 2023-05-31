@@ -36,7 +36,7 @@ def mostrar_lista_jugadores(jugadores:list)-> str:
     cadena con los nombres de los jugadores separados por un carácter de nueva línea.
     
     Parametros:
-        jugadores: lista de jugadores
+        jugadores: lista de diccionarios de los jugadores
     
     Retorna:
         str: una cadena que contiene los nombres de los jugadores separados por un salto de linea
@@ -103,7 +103,7 @@ def listar_jugadores_dream_team(jugadores:list)-> str:
     posiciones.
     
     Parametro:
-        jugadores: lista de jugadores
+        jugadores: lista de diccionarios de los jugadores
         
     Retorna:
         str: una cadena formateada con sus nombres y posiciones
@@ -125,7 +125,7 @@ def mostrar_informacion_del_jugador(jugadores:list)-> list:
     jugador por índice y devuelve las estadísticas del jugador.
     
     Parametros:
-        jugadores: lista de jugadores
+        jugadores: lista de diccionarios de los jugadores
         
     Retorna:
         list: una lista con las estadísticas del jugador seleccionado
@@ -190,7 +190,7 @@ def guardar_ejercicio_2(jugadores:list)-> str:
     información en un formato específico.
     
     Parametro:
-        jugadores: lista de jugadores
+        jugadores: lista de diccionarios de los jugadores
         
     Retorna:
         str: una cadena formateada con las claves y los valores separadas por un salto de linea
@@ -224,7 +224,7 @@ def mostrar_logros_del_jugador(jugadores:list, flag:bool)-> str:
     luego devuelve los logros de ese jugador.
     
     Parametro:
-        jugadores: lista de jugadores
+        jugadores: lista de diccionarios de los jugadores
         flag: una bandera la cual depende su condicion retornara un resultado diferente
         
     Retorna:
@@ -264,7 +264,7 @@ def promedio_sub_clave(jugadores:list[dict],sub_clave:str)-> float:
     resultado.
     
     Parametro:
-        jugadores: lista de jugadores
+        jugadores: lista de diccionarios de los jugadores
         sub_clave: espacio utilizado para cualquier clave que esta dentro de "estadisticas"
         
     Retorna:
@@ -296,7 +296,7 @@ def lista_jugadores_alfabeticamente(jugadores:list, dato:str)-> str:
     lista de nombres de jugadores ordenados alfabéticamente.
     
     Parametro:
-        jugadores: lista de jugadores
+        jugadores: lista de diccionarios de los jugadores
         dato: nombre de la clave de los diccionarios jugadores por la cual se va a ordenar
         
     Retorna:
@@ -325,7 +325,7 @@ def jugador_con_mayor_cantidad_de_sub_clave(jugadores:list, sub_clave:str)-> str
     Calcula y muestra el jugador con la mayor cantidad de rebotes totales.
 
     Parametros:
-        jugadores: lista de jugadores
+        jugadores: lista de diccionarios de los jugadores
         sub_clave: corresponde a una clave que se encuentre dentro de los diccionarios de los jugadores y a
         su vez dentro de la clave "estadisticas"
 
@@ -364,7 +364,7 @@ def listar_jugadores_mayor_al_promedio(jugadores:list, sub_clave:str)-> str:
     ingresado por el usuario.
     
     Parametros:
-        jugadores: lista de jugadores
+        jugadores: lista de diccionarios de los jugadores
         sub_clave: corresponde a una clave que se encuentre dentro de los diccionarios de los jugadores y a
         su vez dentro de la clave "estadisticas"
         
@@ -398,7 +398,7 @@ def promedio_excluyendo_al_menor_cantidad_puntos_por_partido(jugadores:list)-> f
     jugador con el promedio más bajo
     
     Parametros:
-        jugadores: lista de jugadores
+        jugadores: lista de diccionarios de los jugadores
         
     Retorna:
         float: el promedio
@@ -431,7 +431,7 @@ def jugador_con_mayor_cantidad_logros(jugadores:list)-> str:
     Esta función devuelve el nombre del jugador con el mayor número de logros obtenidos.
     
     Parametros:
-        jugadores: lista de jugadores
+        jugadores: lista de diccionarios de los jugadores
         
     Retorna:
         str: el jugador con el mayor número de logros obtenidos
@@ -452,11 +452,17 @@ def jugador_con_mayor_cantidad_logros(jugadores:list)-> str:
 
 
 # 20
-# Permitir al usuario ingresar un valor y mostrar los jugadores , ordenados por
-# posición en la cancha, que hayan tenido un porcentaje de tiros de campo superior a
-# ese valor.
-
 def ordenar_jugadores_alfabeticamente(jugadores:list)-> list:
+    """
+    Esta función ordena alfabéticamente una lista de jugadores según su porcentaje de tiro y devuelve la
+    lista ordenada como una cadena.
+    
+    Parametros:
+        jugadores: lista de diccionarios de los jugadores
+        
+    Retorna:
+        str: el jugador que supera el numero ingresado por el usuario de "porcentaje tiros de campo"
+    """
     if jugadores:
         lista_nombres = listar_jugadores_mayor_al_promedio(jugadores, "porcentaje_tiros_de_campo")
         lista_nombres = lista_nombres.split("\n")
